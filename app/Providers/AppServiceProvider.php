@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        view()->share('_PAGE_TITLE', 'Anacaren Gutierrez');
     }
 
     /**
