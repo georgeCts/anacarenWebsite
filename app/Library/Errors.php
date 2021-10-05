@@ -52,6 +52,10 @@ class Errors {
 	const POSTS_EDIT_02_TITLE = "Error de modificación.";
 	const POSTS_EDIT_02_MESSAGE = "El post no se pudo registrar. Póngase en contacto con el administrador.";
 
+	const POSTS_DELETE_01_ID = "3_0005";
+	const POSTS_DELETE_01_TITLE = "Error de eliminación.";
+	const POSTS_DELETE_01_MESSAGE = "El post no se pudo eliminar. Póngase en contacto con el administrador.";
+
 
 	//SLIDERS
 	const SLIDERS_CREATE_01_ID = "3_0001";

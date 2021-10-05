@@ -46,6 +46,8 @@ Route::group([  'prefix'    => 'panel',
     Route::get('publicaciones/editar/{id}', [PostsController::class, 'edit']);
     Route::put('publicaciones/editar', [PostsController::class, 'update']);
 
+    Route::get('publicaciones/eliminar/{id}', [PostsController::class, 'delete']);
+
     //SLIDERS
     Route::get('sliders', 'Admin\SlidersController@index');
     Route::get('sliders/slider-crear', 'Admin\SlidersController@create');

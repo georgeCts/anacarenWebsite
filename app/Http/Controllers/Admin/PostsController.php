@@ -42,7 +42,7 @@ class PostsController extends Controller
             $url        = '/posts/' . $fileName;
 
             try {
-                if($request->image->storeAs('posts', $fileName)) {
+                if($request->image->storeAs('posts', $fileName, 'public')) {
                     $objPost               = new Post();
                     $objPost->user_id      = Auth::user()->id;
                     $objPost->title        = $request['txtTitle'];
@@ -54,6 +54,8 @@ class PostsController extends Controller
                     $objPost->highlight    = $request['rdHighlight'] == "false" ? false : true;
                     $objPost->file         = $url;
                     $objPost->save();
+
+                    $objPost->tags()->attach($request->cmbTags);
 
                     $objReturn->setResult(true, Messages::POSTS_CREATE_TITLE, Messages::POSTS_CREATE_MESSAGE);
                 } else {
@@ -69,57 +71,79 @@ class PostsController extends Controller
         return $objReturn->getRedirectPath();
     }
 
-    public function editar($pkPost) {
-        /* $return = redirect('panel/publicaciones');
-        $objPost = Post::where('pk_post', $pkPost)->first();
+    public function edit($id) {
+        $return = redirect('panel/publicaciones');
+        $objPost = Post::where(['id' => $id, 'deleted' => false])->first();
 
-        if($objPost != null) {
-            $categories = Category::where('deleted', 0)->get();
-            $tags = Tag::where('deleted', 0)->get();
+        if(!is_null($objPost)) {
+            $categories = Category::where('deleted', false)->get();
+            $tags = Tag::where('deleted', false)->get();
+
             $return = view('panel.contents.publicaciones.Edit', ['objPost' => $objPost, 'categories' => $categories, 'tags' => $tags]);
         }
 
-        return $return; */
+        return $return;
     }
 
     public function update(Request $request) {
-        /* $objPost = Post::where('pk_post', $request['hddPkPost'])->first();
-        $objReturn = new ActionReturn('panel/publicaciones/publicacion-editar/'.$request['hddPkPost'], 'panel/publicaciones');
+        $objPost = Post::find($request['hddIdPost']);
+        $objReturn = new ActionReturn('panel/publicaciones/editar/'.$request['hddIdPost'], 'panel/publicaciones');
 
-        if($objPost != null) {
+        if(!is_null($objPost)) {
 
-            $objPost->pk_user      = Auth::user()->pk_user;
+            $objPost->user_id      = Auth::user()->id;
             $objPost->title        = $request['txtTitle'];
             $objPost->slug         = $request['txtSlug'];
             $objPost->excerpt      = $request['txtExcerpt'];
             $objPost->body         = $request['txtBody'];
             $objPost->status       = $request['rdEstatus'];
-            $objPost->pk_category  = $request['cmbCategory'];
-            $objPost->highlight    = $request['rdHighlight'];
+            $objPost->category_id  = $request['cmbCategory'];
+            $objPost->highlight    = $request['rdHighlight'] == "false" ? false : true;
 
             //CARGA LA IMAGEN DEL POST
             if($request->file('image')) {
-                $storage = Storage::disk('s3');
-                $path = $storage->put('images', $request->file('image'), 'public');
-    
-                $objPost->file = $path;
+                Storage::delete($objPost->file);
+                $file       = $request->file('image');
+                $extension  = $file->getClientOriginalExtension();
+                $fileName   = time() . '_image_post.' . $extension;
+                $url        = '/posts/' . $fileName;
+                $request->image->storeAs('posts', $fileName, 'public');
+                //Storage::disk('public')->put($url, $request->file('image'));
+
+                $objPost->file = $url;
             }
 
             try {
                 if($objPost->update()) {
-                    $objPost->tags()->attach($request->get('cmbTags'));
+                    $objPost->tags()->sync($request->cmbTags);
                     $objReturn->setResult(true, Messages::POSTS_EDIT_TITLE, Messages::POSTS_EDIT_MESSAGE);
                 } else {
                     $objReturn->setResult(false, Errors::POSTS_EDIT_02_TITLE, Errors::POSTS_EDIT_02_MESSAGE);
                 }
             } catch(Exception $exception) {
                 $objReturn->setResult(false, Errors::getErrors($exception->getCode())['title'], Errors::getErrors($exception->getCode())['message']);
-            }            
+            }
         }
         else {
             $objReturn->setResult(false, Errors::POSTS_EDIT_01_TITLE, Errors::POSTS_EDIT_01_MESSAGE);
         }
 
-        return $objReturn->getRedirectPath(); */
+        return $objReturn->getRedirectPath();
+    }
+
+    public function delete($id) {
+        $objReturn  = new ActionReturn('panel/publicaciones', 'panel/publicaciones');
+        $objPost = Post::where(['id' => $id, 'deleted' => false])->first();
+
+        if(!is_null($objPost)) {
+            $objPost->deleted = 1;
+            $objPost->save();
+
+            $objReturn->setResult(true, Messages::POSTS_DELETE_TITLE, Messages::POSTS_DELETE_MESSAGE);
+        } else {
+            $objReturn->setResult(false, Errors::POSTS_DELETE_01_TITLE, Errors::POSTS_DELETE_01_MESSAGE);
+        }
+
+        return $objReturn->getRedirectPath();
     }
 }

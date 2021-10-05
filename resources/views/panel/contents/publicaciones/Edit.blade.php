@@ -19,8 +19,10 @@
         </div>
     @endif
 
-    {!! Form::open(['route' => 'update-post', 'method' => 'PUT', 'files' => true]) !!}
-        <input type="hidden" name="hddPkPost" value="{{$objPost->pk_post}}" />
+    <form action="{{URL::to('panel/publicaciones/editar')}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        {{ method_field('PUT') }}
+        <input type="hidden" name="hddIdPost" value="{{$objPost->id}}" />
 
         <div class="row">
             <div class="col-md-8 grid-margin stretch-card">
@@ -28,12 +30,12 @@
                     <div class="card-body">
                         <h4 class="card-title">Modificar Publicaci&oacute;n</h4>
                         <p class="card-description">Información General</p>
-                        
+
                         <div class="form-group">
                             <label for="txtTitle">Título</label>
                             <input type="text" class="form-control" id="txtTitle" name="txtTitle" placeholder="Título del post" value="{{$objPost->title}}" required />
                         </div>
-                    
+
                         <div class="form-group">
                             <label for="txtSlug">URL Amigable</label>
                             <input type="text" class="form-control" id="txtSlug" name="txtSlug" placeholder="esto-es-un-ejemplo" value="{{$objPost->slug}}" required/>
@@ -53,41 +55,37 @@
                             <label for="cmbCategory">Categoría</label>
                             <select class="form-control" id="cmbCategory" name="cmbCategory">
                                 @foreach($categories as $item)
-                                    @if($objPost->pk_category == $item->pk_category)
-                                        <option value="{{$item->pk_category}}" selected>{{ $item->category }}</option>
+                                    @if($objPost->category_id == $item->id)
+                                        <option value="{{$item->id}}" selected>{{ $item->category }}</option>
                                     @else
-                                        <option value="{{$item->pk_category}}">{{ $item->category }}</option>
+                                        <option value="{{$item->id}}">{{ $item->category }}</option>
                                     @endif
                                 @endforeach
                             </select>
-                        </div>                    
-                        
+                        </div>
+
                         <button type="submit" class="btn btn-success mr-2">Guardar</button>
-                        <button class="btn btn-light">Cancelar</button>                    
+                        <button class="btn btn-light">Cancelar</button>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4 d-flex align-items-stretch grid-margin">
                 <div class="row flex-grow">
-                    <div class="col-12">
+                    <div class="col-12 stretch-card">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Imagen de la Publicación</h4>
                                 <p class="card-description">La imagen deben ser (960 x 750)</p>
-                                <img src="{{ Storage::disk('s3')->url($objPost->file) }}" class="img-thumbnail" />
+                                <img src="{{ asset('storage' . $objPost->file) }}" class="img-thumbnail" />
                                 <br />
                                 <div class="form-group">
                                     <label>Imágen</label>
                                     <input type="file" name="image" class="form-control" />
-                                </div>                                    
-                            </div>
-                        </div>
-                    </div>
+                                </div>
 
-                    <div class="col-12 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
+                                <hr />
+
                                 <h4 class="card-title">Estatus</h4>
                                 <p class="card-description">Selecciona el estatus que tendrá la publicación al ser creada</p>
 
@@ -119,12 +117,13 @@
                                     <label for="cmbTags">Selecciona las etiquetas a relacionar</label>
                                     <select id="cmbTags" name="cmbTags[]" class="form-control select2-multiple" multiple="multiple">
                                         @foreach($tags as $item)
-                                            <option value="{{$item->pk_tag}}">{{ $item->tag }}</option>
+                                            <option {{ in_array($item->id, $objPost->tags->pluck('id')->all()) ? 'selected' : '' }} value="{{$item->id}}">{{ $item->tag }}</option>
                                         @endforeach
                                     </select> 
                                 </div>
 
                                 <hr />
+
                                 <h4 class="card-title">Post Destacado</h4>
                                 <p class="card-description">Selecciona si la publicación será destacada en la página web</p>
 
@@ -132,18 +131,18 @@
                                     <div class="form-radio">
                                         <label class="form-check-label">
                                             @if($objPost->highlight != 1)
-                                                <input type="radio" class="form-check-input" name="rdHighlight" id="rdHighlight1" value="0" checked> No
+                                                <input type="radio" class="form-check-input" name="rdHighlight" id="rdHighlight1" value="false" checked> No
                                             @else
-                                                <input type="radio" class="form-check-input" name="rdHighlight" id="rdHighlight1" value="0"> No
+                                                <input type="radio" class="form-check-input" name="rdHighlight" id="rdHighlight1" value="false"> No
                                             @endif
                                         </label>
                                     </div>
                                     <div class="form-radio">
                                         <label class="form-check-label">
                                             @if($objPost->highlight != 0)
-                                                <input type="radio" class="form-check-input" name="rdHighlight" id="rdHighlight2" value="1" checked> Sí
+                                                <input type="radio" class="form-check-input" name="rdHighlight" id="rdHighlight2" value="true" checked> Sí
                                             @else
-                                                <input type="radio" class="form-check-input" name="rdHighlight" id="rdHighlight2" value="1"> Sí
+                                                <input type="radio" class="form-check-input" name="rdHighlight" id="rdHighlight2" value="true"> Sí
                                             @endif
                                         </label>
                                     </div>
@@ -154,7 +153,7 @@
                 </div>
             </div>
         </div>
-    {!! Form::close() !!}
+    </form>
 @endsection
 
 @section('scripts')
@@ -171,7 +170,7 @@
             })
 
             $('.select2-multiple').select2();
-            
+
             tinymce.init({
                 selector: '#txtBody',
                 theme: 'modern',
@@ -186,7 +185,7 @@
 		        toolbar2: 'print preview media | forecolor backcolor emoticons',
 		        image_advtab: true
             });
-        });        
+        });
     </script>
 @endsection
 

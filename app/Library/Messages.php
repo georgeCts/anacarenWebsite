@@ -21,6 +21,8 @@ class Messages {
 	const POSTS_CREATE_MESSAGE = "El nuevo post se creó exitosamente.";
 	const POSTS_EDIT_TITLE = "Post modificado.";
 	const POSTS_EDIT_MESSAGE = "El post se modificó exitosamente.";
+	const POSTS_DELETE_TITLE = "Post eliminado.";
+	const POSTS_DELETE_MESSAGE = "El post se eliminó exitosamente.";
 
 	//SLIDERS
 	const SLIDERS_CREATE_TITLE = "Nuevo slider creado.";
