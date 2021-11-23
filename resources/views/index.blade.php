@@ -101,7 +101,8 @@
         <p>Se pueden poner algunos productos de ana.... :D</p>
       </header>
       <div class="row text-center">
-        <div class="col-lg-3 col-md-6"><a class="text-reset text-decoration-none" href="post.html"><img class="mb-4" src="img/bag.png" alt="" height="150">
+        <div id='product-component-1635017265656'></div>
+        {{-- <div class="col-lg-3 col-md-6"><a class="text-reset text-decoration-none" href="post.html"><img class="mb-4" src="img/bag.png" alt="" height="150">
             <h3 class="h5">Backpack</h3>
             <p class="text-small text-muted">Deserunt et ad culpa culpa dolore.</p></a></div>
         <div class="col-lg-3 col-md-6"><a class="text-reset text-decoration-none" href="post.html"><img class="mb-4" src="img/camera.png" alt="" height="150">
@@ -113,7 +114,7 @@
         <div class="col-lg-3 col-md-6"><a class="text-reset text-decoration-none" href="post.html"><img class="mb-4" src="img/headphone.png" alt="" height="150">
             <h3 class="h5">Headphones</h3>
             <p class="text-small text-muted">Elit ad est labore irure qui.</p></a></div>
-      </div>
+      </div> --}}
     </div>
   </section>
 
