@@ -14,9 +14,7 @@
             </ul>
         </div>
 
-        <img class="w-100 py-5" src="/img/post-banner.jpg" alt="" />
-
-        <div class="container">
+        <div class="container mt-5">
             <div class="row">
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     {!! $post->body !!}
