@@ -21,19 +21,19 @@
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     {!! $post->body !!}
 
-                    <h3 class="h4 mb-4">Comparte esta publicación</h3>
+                    {{-- <h3 class="h4 mb-4">Comparte esta publicación</h3>
                     <ul class="list-inline mb-5">
                         <li class="list-inline-item mr-1 mb-3"><a class="social-link-share facebook" href="#"><i class="fab fa-facebook-f mr-2"></i>Compartir</a></li>
                         <li class="list-inline-item mr-1 mb-3"><a class="social-link-share twitter" href="#"><i class="fab fa-twitter mr-2"></i>Tweet</a></li>
                         <li class="list-inline-item mr-1 mb-3"><a class="social-link-share instagram" href="#"><i class="fab fa-instagram mr-2"></i>Compartir</a></li>
-                    </ul>
+                    </ul> --}}
                 </div>
 
                 <div class="col-lg-4">
                     <!-- About me widget -->
                     <div class="mb-5 text-center"><img class="mb-3 rounded-circle img-thumbnail shadow-sm" src="{{ asset('storage/' . $post->user->photo) }}" alt="" width="110" />
                         <h3 class="h4">/Acerca de mi</h3>
-                        <p class="text-small text-muted px-sm-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</p>
+                        <p class="text-small text-muted px-sm-4">Viajera. Escritora. Abogada.</p>
                         <img class="d-block mx-auto mb-3" src="img/signature.png" alt="" width="60" />
                         <ul class="list-inline text-small mb-0">
                             <li class="list-inline-item"><a class="reset-anchor" href="#"><i class="fab fa-facebook-f"></i></a></li>
