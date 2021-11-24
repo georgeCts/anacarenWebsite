@@ -62,7 +62,7 @@ class PostsController extends Controller
                     $objReturn->setResult(false, Errors::POSTS_CREATE_02_TITLE, Errors::POSTS_CREATE_02_MESSAGE);
                 }
             } catch(Exception $exception) {
-                $objReturn->setResult(false, Errors::getErrors($exception->getCode())['title'], Errors::getErrors($exception->getCode())['message']);
+                $objReturn->setResult(false, "Exception", $exception->getMessage());
             }
         } else {
             $objReturn->setResult(false, Errors::POSTS_CREATE_01_TITLE, Errors::POSTS_CREATE_01_MESSAGE);
