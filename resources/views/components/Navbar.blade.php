@@ -40,10 +40,10 @@
                 <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item px-1">
-                            <a @if (Request::path() == ('test')) {!!'class=" nav-link active"' !!} @else {!!'class=" nav-link"' !!}  @endif href="{{URL::to('test/') }}">Inicio</a>
+                            <a @if (Request::path() == ('/')) {!!'class=" nav-link active"' !!} @else {!!'class=" nav-link"' !!}  @endif href="{{URL::to('/') }}">Inicio</a>
                         </li>
                         <li class="nav-item px-1">
-                            <a @if (Request::path() == ('test/blog')) {!!'class=" nav-link active"' !!} @else {!!'class=" nav-link"' !!}  @endif href="{{URL::to('test/blog') }}">Blog</a>
+                            <a @if (Request::path() == ('/blog')) {!!'class=" nav-link active"' !!} @else {!!'class=" nav-link"' !!}  @endif href="{{URL::to('/blog') }}">Blog</a>
                         </li>
                         <li class="nav-item px-1">
                             <a class="nav-link" href="#">Tienda</a>

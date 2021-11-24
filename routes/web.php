@@ -18,16 +18,10 @@ use App\Http\Controllers\Admin\PostsController;
 |
 */
 
-Route::get('/', function () {
-    return view('construction.index');
-});
+Route::get('/', [HomeController::class, 'index']);
 
-Route::group(['prefix' => 'test'], function () {
-    Route::get('/', [HomeController::class, 'index']);
-
-    Route::get('/blog', [BlogController::class, 'index']);
-    Route::get('/blog/{slug}', [BlogController::class, 'viewPost']);
-});
+Route::get('/blog', [BlogController::class, 'index']);
+Route::get('/blog/{slug}', [BlogController::class, 'viewPost']);
 
 Route::get('/login-panel', [LoginController::class, 'index']);
 Route::post('/login-panel', [LoginController::class, 'access']);

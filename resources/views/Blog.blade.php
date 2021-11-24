@@ -21,17 +21,17 @@
                     <div class="row text-center">
                         @foreach ($lstPosts as $post)
                             <div class="col-lg-6 mb-5">
-                                <a href="{{URL::to('test/blog/'.$post->slug)}}"><img class="img-fluid mb-4" src="/img/listing-tnumbnail-3.jpg" alt=""/></a>
+                                <a href="{{URL::to('blog/'.$post->slug)}}"><img class="img-fluid mb-4" src="/img/listing-tnumbnail-3.jpg" alt=""/></a>
                                 <ul class="list-inline small text-uppercase mb-0">
                                     <li class="list-inline-item mr-0 text-gray align-middle">Por </li>
                                     <li class="list-inline-item align-middle mr-0"><a class="font-weight-bold reset-anchor" href="#">{{ $post->user->completeName() }}</a></li>
                                     <li class="list-inline-item text-gray align-middle mr-0">|</li>
                                     <li class="list-inline-item text-gray align-middle">{{ $post->formattedCreated() }}</li>
                                 </ul>
-                                <h3 class="h4 mt-2"><a class="reset-anchor" href="{{URL::to('test/blog/'.$post->slug)}}">{{ $post->title }}</a></h3>
+                                <h3 class="h4 mt-2"><a class="reset-anchor" href="{{URL::to('blog/'.$post->slug)}}">{{ $post->title }}</a></h3>
                                 <a class="reset-anchor text-gray text-uppercase small mb-2 d-block" href="#">{{ $post->category->category }}</a>
                                 <p class="text-small mb-1">{{ $post->excerpt }}</p>
-                                <a class="btn btn-link" href="{{URL::to('test/blog/'.$post->slug)}}">Seguir leyendo</a>
+                                <a class="btn btn-link" href="{{URL::to('blog/'.$post->slug)}}">Seguir leyendo</a>
                             </div>
                         @endforeach
                     </div>
